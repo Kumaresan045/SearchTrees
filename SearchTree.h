@@ -4,6 +4,7 @@ class SearchTree
 {
     protected:
         Node* root{nullptr};
+        Node* find(int data,Node* Root);
         int size{};
         int height{};
         int inorder(Node* node,int cnt,int depth,vector<Node*>& nodes);
@@ -11,7 +12,6 @@ class SearchTree
     
     public:
         SearchTree(){};
-        Node* find(int data,Node* Root);
         bool search(int data);
 
         virtual void insert(int data)=0;
