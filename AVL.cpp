@@ -111,11 +111,3 @@ Node* AVL::restructure(Node* nodex)
     if(!parent)root=nodeb;
     return nodeb;
 }
-
-int main()
-{
-    AVL t;
-    vector<int> v{8,9};
-    for(int i=1;i<10;i++) {t.insert(i);}
-    for(int i=1;i<10;i++) {t.remove(i);t.display();}
-}
