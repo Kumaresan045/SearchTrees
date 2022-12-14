@@ -39,15 +39,3 @@ void BST::remove(int data)
     remaboveext(succ);
 
 }
-
-int main()
-{
-    BST t;
-    t.insert(8);
-    t.insert(9);
-    t.remove(8);
-    t.display();
-}
-
-
-
