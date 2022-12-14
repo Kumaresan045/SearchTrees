@@ -211,5 +211,9 @@ int main()
 {
     vector<int> data = {4,7,12,15,3,5,14,18};
     Red_Black t;
-    for(auto d:data){t.insert(d); t.display();}
+    for(auto d:data) t.insert(d);
+    t.display();
+    vector<int> dat = {3,12,17,18,15,16};
+    for(auto d:dat) t.remove(d);
+    t.display();
 }
