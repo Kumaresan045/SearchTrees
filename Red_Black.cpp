@@ -19,21 +19,76 @@ void Red_Black::doubleblack(Node* node)
     if(node==root) return;
     auto nodex = node->parent;
     auto nodey = (nodex->left == node) ? nodex->right : nodex->left;
+    auto parent = nodex->parent;
     
     if(nodey->isBlack())
     {
         if(nodey->left->isBlack() && nodey->right->isBlack())
         {
-
+            node->color=1;
+            nodey->color=0;
+            if(nodex->isRed()) nodex->color=1;
+            else doubleblack(nodex);
         }
         else
         {
-
+            auto nodez = (nodey->left->isRed()) ? nodey->left : nodey->right;
+            vector<Node*> subtrees;
+            vector<Node*> nodes;
+            subtrees.push_back(nodez->left);
+            subtrees.push_back(nodez->right);
+            subtrees.push_back((nodez==nodey->left) ? nodey->right : nodey->left);
+            subtrees.push_back(node);
+            nodes.push_back(nodez);
+            nodes.push_back(nodey);
+            nodes.push_back(nodex);
+            sort(nodes.begin(),nodes.end(),[](Node* a,Node* b){return a->data < b->data;});
+            sort(subtrees.begin(),subtrees.end(),[](Node* a,Node* b){return a->data < b->data;});
+            if(parent) (parent->left == nodex) ? parent->left = nodes[1] : parent->right = nodes[1];
+            else root = nodes[1];
+            nodes[1]->parent = parent;
+            nodes[1]->left = nodes[0];
+            nodes[1]->right = nodes[2];
+            nodes[0]->parent = nodes[1];
+            nodes[2]->parent = nodes[1];
+            nodes[0]->left = subtrees[0];
+            nodes[0]->right = subtrees[1];
+            nodes[2]->left = subtrees[2];
+            nodes[2]->right = subtrees[3];
+            subtrees[0]->parent = nodes[0];
+            subtrees[1]->parent = nodes[0];
+            subtrees[2]->parent = nodes[2];
+            subtrees[3]->parent = nodes[2];
+            nodes[0]->color = nodex->color;
+            nodes[1]->color = 1;
+            nodes[2]->color = 1;
         }
     }
     else
     {
-
+        if(nodey==nodex->left)
+        {
+            auto t2 = nodey->right;
+            nodey->right = nodex;
+            nodex->parent = nodey;
+            nodex->left = t2;
+            t2->parent = nodex;
+            
+        }
+        else
+        {
+            auto t2 = nodey->left;
+            nodey->left = nodex;
+            nodex->parent = nodey;
+            nodex->right = t2;
+            t2->parent = nodex;
+        }
+        nodey->parent = parent;
+        if(parent) (parent->left == nodex) ? parent->left = nodey : parent->right = nodey;
+        else root = nodey;
+        nodey->color = 1;
+        nodex->color = 0;
+        doubleblack(node);
     }
 }
 
